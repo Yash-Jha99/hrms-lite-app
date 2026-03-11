@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/table";
 import { Attendance } from "@/services/attendance";
 import { Badge } from "../ui/badge";
-import dayjs from "dayjs";
 
 type Props = {
   attendance: Attendance[];
@@ -27,7 +26,6 @@ const AttendanceTable = ({ attendance }: Props) => {
           <TableHeader>
             <TableRow>
               <TableHead>Employee</TableHead>
-              <TableHead>Date</TableHead>
               <TableHead>Status</TableHead>
             </TableRow>
           </TableHeader>
@@ -35,7 +33,6 @@ const AttendanceTable = ({ attendance }: Props) => {
             {attendance.map(({ id, date, status, employee }) => (
               <TableRow key={id}>
                 <TableCell>{employee.name}</TableCell>
-                <TableCell>{dayjs(date).format("DD-MM-YYYY")}</TableCell>
                 <TableCell>
                   <Badge
                     className="capitalize"

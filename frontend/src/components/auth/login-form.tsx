@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { useAuth } from "@/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -8,12 +8,12 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { ChangeEvent, FormEvent, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { cn } from "@/lib/utils";
 import { login } from "@/services/auth";
-import { toast } from "sonner";
-import { useAuth } from "@/auth";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
+import { ChangeEvent, useState } from "react";
+import { toast } from "sonner";
 import { Spinner } from "../ui/spinner";
 
 type Props = {
@@ -34,7 +34,7 @@ export function LoginForm({ className, redirect }: Props) {
     mutationFn: login,
     onError: (error: any) => {
       toast.error(
-        error?.data?.errors?.[0]
+        error?.response?.data?.errors?.[0]
           ? "Invalid Credentials"
           : "Something went wrong",
       );
@@ -56,10 +56,6 @@ export function LoginForm({ className, redirect }: Props) {
       password: "",
     });
 
-  const handleSubmit = () => {
-    loginMutation.mutate(formValues);
-  };
-
   return (
     <div className={cn("flex flex-col gap-6", className)}>
       <Card>
@@ -67,7 +63,12 @@ export function LoginForm({ className, redirect }: Props) {
           <CardTitle>Login to HRMS Lite</CardTitle>
         </CardHeader>
         <CardContent>
-          <form>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              loginMutation.mutate(formValues);
+            }}
+          >
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="username">Username</FieldLabel>
@@ -91,11 +92,7 @@ export function LoginForm({ className, redirect }: Props) {
                 />
               </Field>
               <Field>
-                <Button
-                  type="button"
-                  onClick={handleSubmit}
-                  disabled={loginMutation.isPending}
-                >
+                <Button type="submit" disabled={loginMutation.isPending}>
                   {loginMutation.isPending && <Spinner />} Login
                 </Button>
                 <FieldDescription className="text-center">

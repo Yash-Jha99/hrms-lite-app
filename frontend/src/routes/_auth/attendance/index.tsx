@@ -1,6 +1,6 @@
 import { DatePicker } from "@/components/common/date-picker";
 import AttendanceTable from "@/components/employee/attendance-table";
-import MarkAttendanceButton from "@/components/employee/mark-attendance-table";
+import MarkAttendanceTable from "@/components/employee/mark-attendance-table";
 import { Spinner } from "@/components/ui/spinner";
 import { fetchAttendance } from "@/services/attendance";
 import { useQuery } from "@tanstack/react-query";
@@ -37,7 +37,7 @@ function RouteComponent() {
       </div>
     );
 
-  if (isError || !data) return <p>Error in fetching employee</p>;
+  if (isError || !data) return <p>Error in fetching attendance records</p>;
 
   return (
     <div
@@ -56,7 +56,7 @@ function RouteComponent() {
         />
       </div>
       <AttendanceTable attendance={data.results || []} />
-      <MarkAttendanceButton
+      <MarkAttendanceTable
         employeeId={employeeId || ""}
         refetch={() => {
           refetch();

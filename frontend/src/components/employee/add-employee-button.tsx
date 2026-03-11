@@ -41,7 +41,7 @@ const AddEmployeeButton = ({ refetch }: Props) => {
     mutationKey: ["new_employee"],
     mutationFn: createEmployee,
     onError: (error: any) => {
-      toast.error(error?.data?.errors?.[0] || "Something went wrong");
+      toast.error(error?.response?.data?.errors?.[0] || "Something went wrong");
     },
     onSuccess: () => {
       resetForm();

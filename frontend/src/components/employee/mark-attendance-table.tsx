@@ -52,10 +52,10 @@ const MarkAttendanceTable = ({
   });
 
   const markAttendanceMutation = useMutation({
-    mutationKey: ["mark_new_attendance"],
+    mutationKey: ["mark_attendance"],
     mutationFn: markAttendance,
     onError: (error: any) => {
-      toast.error(error?.data?.errors?.[0] || "Something went wrong");
+      toast.error(error?.response?.data?.errors?.[0] || "Something went wrong");
     },
     onSuccess: () => {
       resetForm();
@@ -95,6 +95,15 @@ const MarkAttendanceTable = ({
       }) ?? [],
     );
   }, [data, attendance]);
+
+  if (isLoading)
+    return (
+      <div className="w-full flex justify-center items-center h-full">
+        <Spinner className="size-8" />
+      </div>
+    );
+
+  if (isError || !data) return <p>Error in fetching employees</p>;
 
   return (
     <div className="flex flex-col gap-2">
