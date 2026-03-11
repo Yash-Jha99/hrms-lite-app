@@ -134,7 +134,7 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
-    "https://hrms-lite-jade-delta.vercel.app",
+    "https://hrms-lite-app-six.vercel.app",
     # other origins...
 ]
 
